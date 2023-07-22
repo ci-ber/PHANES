@@ -60,7 +60,7 @@ Paste the API key from https://wandb.ai/authorize when prompted.
 
 ```bash
 git clone https://github.com/ci-ber/PHANES.git
-cd autoDDPM
+cd PHANES
 ```
 
 #### Install requirements
