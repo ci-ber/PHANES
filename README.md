@@ -48,7 +48,7 @@ The code is based on the deep learning framework from the Institute of Machine L
 <img src="https://github.com/ci-ber/PHANES/assets/106509806/a298aa9d-9163-4df4-a47d-1124b6d82724">
 </p>
 
-#### Set up wandb (https://docs.wandb.ai/quickstart)
+#### 1). Set up wandb (https://docs.wandb.ai/quickstart)
 
 Sign up for a free account and login to your wandb account.
 ```bash
@@ -56,27 +56,40 @@ wandb login
 ```
 Paste the API key from https://wandb.ai/authorize when prompted.
 
-#### Clone repository
+#### 2). Clone repository
 
 ```bash
 git clone https://github.com/ci-ber/PHANES.git
 cd PHANES
 ```
 
-#### Install requirements
+#### 3). Install requirements
 
 ```bash
 pip install -r requirements.txt
 ```
 
-#### Download datasets 
+#### 4). Install PyTorch 
+
+> Example installation:
+
+* *with cuda*: 
+```
+pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+```
+* *w/o cuda*:
+```
+pip3 install torch==1.9.1 torchvision==0.10.1 -f https://download.pytorch.org/whl/torch_stable.html
+```
+
+#### 5). Download datasets 
 
 <h4 align="center"><a href="https://brain-development.org/ixi-dataset/">IXI</a> • <a href="https://fastmri.org">FastMRI</a> • <a href="https://github.com/microsoft/fastmri-plus"> Labels for FastMRI</a> • <a href="https://fcon_1000.projects.nitrc.org/indi/retro/atlas.html">Atlas (Stroke) </a> </h4>
 
-> *Alternatively you can use your own chest X-Ray images with our <a href=""> pre-trained weights</a> or train from scratch on other anatomies and modalities.*
+> *Alternatively you can use your own mid-axial slices of T1w brain scans with our <a href=""> pre-trained weights</a> or train from scratch on other anatomies and modalities.*
 
 
-#### Run the pipeline
+#### 6). Run the pipeline
 
 Run the main script with the corresponding config like this:
 
@@ -84,7 +97,9 @@ Run the main script with the corresponding config like this:
 python core/Main.py --config_path ./projects/phanes/phanes.yaml
 ```
 
-Refer to phanes.yaml for the default configuration. Store the pre-trained model from <a href=""> HERE</a> into the specified directory to skip the training part.
+Refer to phanes.yaml for the default configuration.
+
+# That's it, enjoy! :rocket:
 
 
 
