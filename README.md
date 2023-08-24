@@ -1,7 +1,7 @@
 The code will be available soon...
 
 <p align="center">
-<img src="https://github.com/ci-ber/PHANES/assets/106509806/fc0ac560-2668-444a-bab9-a5e90eddf812" width="200" class="center">
+<img src="https://github.com/ci-ber/PHANES/assets/106509806/8a22f09a-6059-4d5b-bfa0-c95acfe11984" width="200" class="center">
 </p>
 <h1 align="center">
   <br>
