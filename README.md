@@ -1,7 +1,7 @@
 The code will be available soon...
 
 <p align="center">
-<img src="https://github.com/ci-ber/PHANES/assets/106509806/8a22f09a-6059-4d5b-bfa0-c95acfe11984" width="200" class="center">
+<img src="https://github.com/ci-ber/PHANES/assets/106509806/fc0ac560-2668-444a-bab9-a5e90eddf812" width="200" class="center">
 </p>
 <h1 align="center">
   <br>
@@ -20,7 +20,7 @@ Reversing the Abnormal: Pseudo-Healthy Generative Networks for Anomaly Detection
 <h4 align="center"><a href="https://ci.bercea.net/project/phanes/">Project Website</a> • <a href="https://arxiv.org/pdf/2303.08452.pdf">Preprint</a> </h4>
 
 <p align="center">
-<img src="https://github.com/ci-ber/PHANES/assets/106509806/14959ea5-b111-4967-8741-d24b009d3c32">
+<img src="https://github.com/ci-ber/PHANES/assets/106509806/8a22f09a-6059-4d5b-bfa0-c95acfe11984">
 </p>
 
 ## Citation
