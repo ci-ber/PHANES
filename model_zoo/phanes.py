@@ -309,7 +309,7 @@ class Phanes(nn.Module):
         anomaly_score = np.mean(anomaly_maps, axis=(1, 2, 3), keepdims=True)
         # anomaly_maps, anomaly_score = self.compute_anomaly(inputs, x_rec)
         return anomaly_maps, anomaly_score, {'x_rec': x_rec, 'mask': mask_, 'saliency': saliency,
-                                             'x_residual': x_dict['residual'], 'x_rec_orig': x_dict['y_coarse']}
+                                             'residual': x_dict['residual'], 'x_rec_orig': x_dict['y_coarse']}
 
     def ae(self, x, o_cond=None, deterministic=False):
         if self.conditional and o_cond is not None:

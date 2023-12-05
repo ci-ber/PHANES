@@ -359,7 +359,7 @@ class PDownstreamEvaluator(DownstreamEvaluator):
                             titles = ['Input', 'Rec', str(res_pred), 'GT']
                             if 'embeddings' in x_rec_dict.keys():
                                 if 'saliency' in x_rec_dict.keys():  # PHANES
-                                    coarse_y = x_rec_dict['y_coarse'][i][0].cpu().detach().numpy()
+                                    coarse_y = x_rec_dict['x_res_orig'][i][0].cpu().detach().numpy()
                                     masked_x = x_rec_dict['masked'][i][0].cpu().detach().numpy()
                                     x_coarse_res = x_rec_dict['residual'][i][0].cpu().detach().numpy()
                                     saliency_coarse = x_rec_dict['saliency'][i][0].cpu().detach().numpy()
