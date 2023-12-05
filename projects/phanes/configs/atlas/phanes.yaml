@@ -37,7 +37,7 @@ model:
 # Trainer
 #
 trainer:
-  module_name: projects.23_phanes_miccai.PhanesTrainer
+  module_name: projects.phanes.PhanesTrainer
   class_name: PTrainer
   params:
     input_size: *target_size
@@ -79,7 +79,7 @@ trainer:
 # Downstream tasks
 downstream_tasks:
   detection:
-    module_name: projects.23_phanes_miccai.DownstreamEvaluator
+    module_name: projects.phanes.DownstreamEvaluator
     class_name: PDownstreamEvaluator
     checkpoint_path: *checkpoint_path
     global_detection: True
