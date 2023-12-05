@@ -42,7 +42,10 @@ trainer:
   params:
     input_size: *target_size
     checkpoint_path: *checkpoint_path
-    nr_epochs: 5 # 1500
+    masking_threshold_train: 0.1 # THRESHOLD FOR TRAINING! Comment out if not known for your application
+    masking_threshold_infer: 0.153 # THRESHOLD FOR INFERENCE! Comment out if not known for your application or
+#    compute it at 5% FPR (see thresholding function in Downstream Evaluator).
+    nr_epochs: 1500
     transformer:
       module_name: transforms.synthetic
       class_name: GenerateMasks
