@@ -1,12 +1,32 @@
 import torch
 import torch.nn.functional as F
-import numpy as np
-import math
 from model_zoo import VGGEncoder
 from torch.nn.modules.loss import _Loss
-from scipy.ndimage.filters import gaussian_filter
 
 
+class EmbeddingLoss(torch.nn.Module):
+    def __init__(self):
+        super(EmbeddingLoss, self).__init__()
+        self.criterion = torch.nn.MSELoss()
+        self.similarity_loss = torch.nn.CosineSimilarity()
+
+    def forward(self, teacher_embeddings, student_embeddings):
+        # print(f'LEN {len(output_real)}')
+        layer_id = 0
+        # teacher_embeddings = teacher_embeddings[:-1]
+        # student_embeddings = student_embeddings[3:-1]
+        # print(f' Teacher: {len(teacher_embeddings)}, Student: {len(student_embeddings)}')
+        for teacher_feature, student_feature in zip(teacher_embeddings, student_embeddings):
+            if layer_id == 0:
+                total_loss = 0.5 * self.criterion(teacher_feature, student_feature)
+            else:
+                total_loss += 0.5 * self.criterion(teacher_feature, student_feature)
+            total_loss += torch.mean(1 - self.similarity_loss(teacher_feature.view(teacher_feature.shape[0], -1),
+                                                         student_feature.view(student_feature.shape[0], -1)))
+            layer_id += 1
+        return total_loss
+
+    
 class PerceptualLoss(_Loss):
     """
     """
