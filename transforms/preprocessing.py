@@ -30,6 +30,7 @@ class ReadImage(Transform):
             PIL_image = PIL.Image.open(path)
             # The image can be converted to tensor using
             tensor_image = torch.squeeze(transform.to_tensor(PIL_image))
+            print(f'Min: {torch.min(tensor_image)}, max: {torch.max(tensor_image)}')
             # print(tensor_image.cpu().numpy().shape)
             return tensor_image  # read_image(path)
             # return read_image(path)
