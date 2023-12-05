@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from typing import Sequence
 from copy import deepcopy as copy
-from net_utils.layers.activation_layers import CustomSwish
+from net_utils.activation_layers import CustomSwish
 from net_utils.initialize import *
 __all__ = ["Encoder", "Decoder", 'ConvAutoEncoder', 'DenseConvAutoEncoderBaur']
 
