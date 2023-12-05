@@ -26,7 +26,7 @@ class EmbeddingLoss(torch.nn.Module):
             layer_id += 1
         return total_loss
 
-    
+
 class PerceptualLoss(_Loss):
     """
     """
