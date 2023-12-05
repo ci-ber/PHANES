@@ -68,9 +68,10 @@ cd PHANES
 ```bash
 pip install -r pip_requirements.txt
 ```
-or ** conda **: 
+or *conda*: 
 ```bash
 conda create --name phanes_py308 --file conda_requirements.txt
+conda activate phanes_py308
 ```
 
 #### 4). Install PyTorch 
@@ -92,8 +93,11 @@ pip3 install torch==1.9.1 torchvision==0.10.1 -f https://download.pytorch.org/wh
 
 > *Alternatively you can use your own mid-axial slices of T1w brain scans with our <a href=""> pre-trained weights</a> or train from scratch on other anatomies and modalities.*
 
+#### 6). !!! Set the right threshold
 
-#### 6). Run the pipeline
+You have to choose a threshold for the binarization of the probable anomaly masks of the first steps. Be mindful of this step since it can influence dramatically the outcome. In the paper we use a threshold that delivers at most 5% false positive for inference *masking_threshold_infer: 0.153* in the *phanes.yaml* config file (0.153 for the given dataset). We choose a lower threshold for training (*masking_threshold_train: 0.1*) since the networks makes less errors on the training data and we need to train the GAN with some input. This has to be set for each dataset individually since the network might produce different errors on healthy due to domain shifts! You can use the *thresholding* function in the *DownStreamEvaluator.py* to compute these on a healthy subsample of that distribution or use *None* otherwise (This will automatically filter the 95% percentile of each scan individually). 
+
+#### 7). Run the pipeline
 
 Run the main script with the corresponding config like this:
 
