@@ -17,12 +17,10 @@ import torch.nn.functional as F
 import matplotlib
 matplotlib.use('Agg')
 from model_zoo.aotgan import aotgan as net
-from optim.losses.image_losses import CosineSimLoss, NCC
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter
 from torchvision.transforms import GaussianBlur
 
-from skimage.measure import label, regionprops
 from skimage import exposure
 import copy
 import lpips
