@@ -38,6 +38,10 @@ class PTrainer(Trainer):
         self.beta_rec = training_params['beta_rec'] if 'beta_rec' in training_params.keys() else 0.5
         self.beta_neg = training_params['beta_neg'] if 'beta_neg' in training_params.keys() else 128.0
         self.z_dim = training_params['z_dim'] if 'z_dim' in training_params.keys() else 128
+        self.masking_threshold_train = training_params['masking_threshold_train'] if 'masking_threshold_train' in \
+                                                                          training_params.keys() else None
+        self.masking_threshold_inference = training_params['masking_threshold_infer'] if 'masking_threshold_infer' in \
+                                                                          training_params.keys() else None
         rec_loss = '1*L1+250*Style+0.1*Perceptual'
         self.adv_weight = training_params['adv_weight'] if 'adv_weight' in training_params.keys() else 0.01
         gan_type = 'smgan'
@@ -237,7 +241,8 @@ class PTrainer(Trainer):
 
                 x_res = x_res * saliency
                 x_res_orig = copy.deepcopy(x_res.detach())
-                ano_mask = self.model.ano_maps.filter_anomaly_mask(x_res)
+                ano_mask = self.model.ano_maps.filter_anomaly_mask(x_res,
+                                                                   masking_threshold=self.masking_threshold_train)
 
                 mixed_mask = ano_mask + masks
                 mixed_mask[mixed_mask > 1] = 1
@@ -368,7 +373,7 @@ class PTrainer(Trainer):
                 x = x.to(self.device)
 
                 # Forward pass
-                x_, z_rec = self.test_model(x)
+                x_, z_rec = self.test_model(x, masking_threshold=self.masking_threshold_inference)
                 x_coarse = z_rec['y_coarse']
                 loss_rec = (self.criterion_MSE(x_, x) + self.criterion_MSE(x_coarse, x)) / 2
                 loss_mse = self.criterion_MSE(x_, x)

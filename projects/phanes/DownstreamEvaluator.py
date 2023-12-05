@@ -7,33 +7,18 @@ logging.getLogger("matplotlib").setLevel(logging.WARNING)
 
 import wandb
 import plotly.graph_objects as go
-import seaborn as sns
-import umap.umap_ as umap
 #
 from torch.nn import L1Loss
 #
 from skimage.metrics import structural_similarity as ssim
-from pytorch_msssim import ssim as ssim2
 from sklearn.metrics import roc_auc_score, roc_curve
-from skimage import exposure
-from skimage.measure import label, regionprops
-from scipy.ndimage.filters import gaussian_filter
-
-from PIL import Image
-import cv2
 #
 import lpips
-import pytorch_fid.fid_score as fid
 #
-from dl_utils import *
 from optim.metrics import *
-from optim.losses.image_losses import NCC
 from core.DownstreamEvaluator import DownstreamEvaluator
-import subprocess
-import os
 import copy
 from model_zoo import VGGEncoder
-from optim.losses.image_losses import CosineSimLoss
 from transforms.synthetic import *
 
 

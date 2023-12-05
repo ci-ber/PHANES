@@ -197,20 +197,7 @@ class AnomalyMap:
             saliency_maps.append(saliency[0])
         return torch.tensor(np.asarray(saliency_maps)).to(x.device)
 
-    def filter_anomaly_mask(self, anomaly_masks):
-        '''
-        !!! CAUTION: The masking threshold is essential for good performance, you can either set it to produce low
-        false positives on the HEALTHY VALIDATION SET, e.g., 95 percentile of the error or if no 
-        such analysis can be conducted, set automatically at the 95th percentile of each scan.
-        For training the threshold could be lower to allow for more input for the second GAN since the network will 
-        produce very good reconstructions for the healthy training set and will thus not have much output to train 
-        the GAN. For training on fast MRI and IXI, the threshold was computed at the 95th percentile of the healthy 
-        validation set (0.153)-inference and was set for 0.1 during training (https://arxiv.org/pdf/2303.08452). 
-        Select 'None' to set the threshold 
-        automatically. 
-        '''
-        masking_threshold = None  # to be automatically determined  0.1 # training 0.153 # inference (set on the
-        # validation set)
+    def filter_anomaly_mask(self, anomaly_masks, masking_threshold):
         filtered_masks = []
         for b in range(anomaly_masks.shape[0]):
             anomaly_mask = anomaly_masks[b][0].cpu().detach().numpy()
@@ -261,7 +248,19 @@ class Phanes(nn.Module):
         self.netG = net.InpaintGenerator().cuda()
         self.netD = net.Discriminator().cuda()
 
-    def forward(self, x, mask=None, o_cond=None, deterministic=False):
+    def forward(self, x, mask=None, o_cond=None, deterministic=False, masking_threshold=None):
+        '''
+        !!! CAUTION: The masking threshold is essential for good performance, you can either set it to produce low
+        false positives on the HEALTHY VALIDATION SET, e.g., 95 percentile of the error or if no
+        such analysis can be conducted, set automatically at the 95th percentile of each scan.
+        For training the threshold could be lower to allow for more input for the second GAN since the network will
+        produce very good reconstructions for the healthy training set and will thus not have much output to train
+        the GAN. For training on fast MRI and IXI, the threshold was computed at the 95th percentile of the healthy
+        validation set (0.153)-inference and was set for 0.1 during training (https://arxiv.org/pdf/2303.08452).
+        Select 'None' to set the threshold
+        automatically.
+        '''
+
         # GET INITIAL PSEUDO-HEALTHY RECONSTRUCTION
         if self.conditional and o_cond is not None:
             mu, logvar, embed_dict = self.encode(x, o_cond=o_cond)
@@ -282,7 +281,7 @@ class Phanes(nn.Module):
         x_res, saliency = self.ano_maps.compute_residual(y.detach(), x)
         x_res = (x_res) * saliency
         x_res_orig = copy.deepcopy(x_res.detach())
-        ano_mask = self.ano_maps.filter_anomaly_mask(x_res)
+        ano_mask = self.ano_maps.filter_anomaly_mask(x_res, masking_threshold)
         if mask is not None:
             ano_mask = mask
             print('Using masks...')
