@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from monai.transforms import Transform
+import torchvision.transforms.functional as transform
 from monai.utils.enums import TransformBackends
 from monai.config.type_definitions import NdarrayOrTensor
 import torchvision
