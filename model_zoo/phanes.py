@@ -191,7 +191,7 @@ class AnomalyMap:
     def get_saliency(self, x_rec, x):
         saliency_maps = []
         for batch in range(x_rec.size(0)):
-            saliency = self.l_pips_sq(2*x_rec[batch]-1, 2*x[batch]-1)
+            saliency = self.l_pips_sq(2*x_rec[batch, :, :, :]-1, 2*x[batch, :, :, :]-1)
             saliency = gaussian_filter(saliency.cpu().detach().numpy(), sigma=2)
             saliency_maps.append(saliency)
         return torch.tensor(np.asarray(saliency_maps)).to(x.device)
