@@ -1,0 +1,104 @@
+name: Phanes
+target_size: &target_size !!python/tuple [128, 128]
+dbatch_size: &dbatch_size 1
+checkpoint_path: &checkpoint_path ./weights/phanes_miccai/sota/
+#
+# Experiment
+#
+experiment:
+  name: 23_MICCAI_PHANES
+  task: train
+  weights: #'./weights/phanes_miccai/sota/2023_03_02_14_50_13_507293/best_model.pt' # FMRI + PHANES (0.1)
+
+#
+device: gpu
+configurator:
+  module_name: core.Configurator
+  class_name: DLConfigurator
+  params:
+#
+# Model
+#
+model:
+  module_name: model_zoo.phanes
+  class_name: Phanes
+  params:
+    cdim: 1
+    zdim: 128
+    channels:
+      - 64
+      - 128
+      - 256
+      - 512
+      - 512
+    image_size: 128
+    conditional: False
+#
+# Trainer
+#
+trainer:
+  module_name: projects.23_phanes_miccai.PhanesTrainer
+  class_name: PTrainer
+  params:
+    input_size: *target_size
+    checkpoint_path: *checkpoint_path
+    nr_epochs: 1500
+    transformer:
+      module_name: transforms.synthetic
+      class_name: GenerateMasks
+      params:
+        min_size: 20
+        max_size: 40
+    loss:
+      module_name: optim.losses.ln_losses
+      class_name: L2
+      params:
+    # Optimizer
+    patience: 500
+    optimizer_params:
+      lr: 5.0e-5 # 2.0e-4 $ orig
+  # Data Loader
+  data_loader:
+# IXI-T1
+    module_name: core.DataLoader
+    class_name: DefaultDataLoader
+    params:
+      args:
+        dataset_module:
+          module_name: data.loaders.ixi_loader
+          class_name: IXILoader
+        data_dir:
+          train:
+            - './data/fastMRI/splits/ixi_normal_train.csv'
+          val:
+            - './data/fastMRI/splits/normal_val.csv'
+          test:
+            - './data/fastMRI/splits/normal_test.csv'
+        target_size: *target_size
+        batch_size: 8
+# Downstream tasks
+downstream_tasks:
+  detection:
+    module_name: projects.23_phanes_miccai.DownstreamEvaluator
+    class_name: PDownstreamEvaluator
+    checkpoint_path: *checkpoint_path
+    global_detection: True
+    data_loader:
+      module_name: core.DataLoader
+      class_name: DefaultDataLoader
+      params:
+        args:
+          target_size: *target_size
+          batch_size: *dbatch_size
+          dataset_module:
+            module_name: data.loaders.ixi_loader
+            class_name: IXILoader
+      datasets:
+        Atlas:
+          data_dir:
+            test:
+              - './data/ATLAS/splits/atlas_train_png.csv'
+          label_dir:
+            test:
+              - './data/ATLAS/splits/atlas_train_mask_png.csv'
+##
