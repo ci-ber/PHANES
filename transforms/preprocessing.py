@@ -4,7 +4,7 @@ from monai.transforms import Transform
 from monai.utils.enums import TransformBackends
 from monai.config.type_definitions import NdarrayOrTensor
 import torchvision
-from torchvision.io.image import read_image
+import PIL
 import torch.nn.functional as F
 
 
@@ -26,7 +26,12 @@ class ReadImage(Transform):
             img = (img * 255).astype(np.uint8)
             return torch.tensor(img)
         elif '.jpeg' in path or '.jpg' in path or '.png' in path:
-            return read_image(path)
+            PIL_image = PIL.Image.open(path)
+            # The image can be converted to tensor using
+            tensor_image = torch.squeeze(transform.to_tensor(PIL_image))
+            # print(tensor_image.cpu().numpy().shape)
+            return tensor_image  # read_image(path)
+            # return read_image(path)
         elif '.nii.gz' in path:
             import nibabel as nip
             from nibabel.imageglobals import LoggingOutputSuppressor
