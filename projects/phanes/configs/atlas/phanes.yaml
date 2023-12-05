@@ -66,7 +66,7 @@ trainer:
       args:
         dataset_module:
           module_name: data.loaders.ixi_loader
-          class_name: IXILoader
+          class_name: BrainLoader
         data_dir:
           train:
             - './data/fastMRI/splits/ixi_normal_train.csv'
@@ -92,7 +92,7 @@ downstream_tasks:
           batch_size: *dbatch_size
           dataset_module:
             module_name: data.loaders.ixi_loader
-            class_name: IXILoader
+            class_name: BrainLoader
       datasets:
         Atlas:
           data_dir:
