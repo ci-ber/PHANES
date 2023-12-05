@@ -179,6 +179,7 @@ class AnomalyMap:
         for batch_id in range(x_rec.size(0)):
             x_rescale = torch.Tensor(exposure.equalize_adapthist(x[batch_id].cpu().detach().numpy())).to(x_rec.device)
             x_rec_rescale = torch.Tensor(exposure.equalize_adapthist(x_rec[batch_id].cpu().detach().numpy())).to(x.device)
+            print(f'shape: {x_rescale.shape}')
             x_res_2 = torch.abs(x_rec_rescale - x_rescale)
             x_res = x_res_2
             perc95 = torch.quantile(x_res, 0.95)
