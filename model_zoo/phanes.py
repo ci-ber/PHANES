@@ -186,7 +186,7 @@ class AnomalyMap:
             x_res = x_res / (perc95+eps)
             x_res[x_res > 1] = 1
             residuals.append(x_res)
-        return torch.tensor(residuals), saliency_maps
+        return torch.tensor(np.asarray(residuals)), saliency_maps
 
     def get_saliency(self, x_rec, x):
         saliency_maps = []
