@@ -176,9 +176,9 @@ class AnomalyMap:
     def compute_residual(self, x_rec, x):
         saliency_maps = self.get_saliency(x_rec, x)
         residuals = []
-        for batch in range(x_rec.size(0)):
-            x_rescale = torch.Tensor(exposure.equalize_adapthist(x[batch].cpu().detach().numpy())).to(x_rec.device)
-            x_rec_rescale = torch.Tensor(exposure.equalize_adapthist(x_rec[batch].cpu().detach().numpy())).to(x.device)
+        for batch_id in range(x_rec.size(0)):
+            x_rescale = torch.Tensor(exposure.equalize_adapthist(x[batch_id].cpu().detach().numpy())).to(x_rec.device)
+            x_rec_rescale = torch.Tensor(exposure.equalize_adapthist(x_rec[batch_id].cpu().detach().numpy())).to(x.device)
             x_res_2 = torch.abs(x_rec_rescale - x_rescale)
             x_res = x_res_2
             perc95 = torch.quantile(x_res, 0.95)
@@ -190,8 +190,8 @@ class AnomalyMap:
 
     def get_saliency(self, x_rec, x):
         saliency_maps = []
-        for batch in range(x_rec.size(0)):
-            saliency = self.l_pips_sq(2*x_rec[batch, :, :, :]-1, 2*x[batch, :, :, :]-1)
+        for batch_id in range(x_rec.size(0)):
+            saliency = self.l_pips_sq(2*x_rec[batch_id:batch_id+1, :, :, :]-1, 2*x[batch_id:batch_id+1, :, :, :]-1)
             saliency = gaussian_filter(saliency.cpu().detach().numpy(), sigma=2)
             saliency_maps.append(saliency)
         return torch.tensor(np.asarray(saliency_maps)).to(x.device)
