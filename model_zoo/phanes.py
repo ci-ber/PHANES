@@ -190,6 +190,7 @@ class AnomalyMap:
 
     def get_saliency(self, x_rec, x):
         saliency_maps = []
+        print(f'SHAPE: {x_rec.shape}')
         for batch in x_rec.shape[0]:
             saliency = self.l_pips_sq(2*x_rec[batch]-1, 2*x[batch]-1)
             saliency = gaussian_filter(saliency.cpu().detach().numpy(), sigma=2)
