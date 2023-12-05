@@ -92,7 +92,12 @@ class To01:
         """
         Apply the transform to `img`.
         """
-        return img/self.max_val
+        if torch.max(img) <= 1:
+            return img
+        elif torch.max(img) > 1 and torch.max(img) < 255:
+            return img/255
+        else:
+            return img/65537
 
 
 
