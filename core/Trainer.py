@@ -85,7 +85,7 @@ class Trainer:
         wandb.watch(self.model)
         input_size = (1, 1, self.training_params['input_size'][0],  self.training_params['input_size'][1])
         print(f'Input size of summery is: {input_size}')
-        summary(model, input_size, device='cpu')
+        # summary(model, input_size, device='cpu')
 
         # Optimizer
         opt_params = training_params['optimizer_params']
