@@ -187,7 +187,6 @@ class AnomalyMap:
             x_res[x_res > 1] = 1
             residuals.append(torch.unsqueeze(x_res, 0))
         res_tensor = torch.cat(residuals, 0)
-        print(f'shapes compute: {res_tensor.shape}  / {saliency_maps.shape}')
         return res_tensor, saliency_maps
 
     def get_saliency(self, x_rec, x):
@@ -196,7 +195,6 @@ class AnomalyMap:
             saliency = self.l_pips_sq(2*x_rec[batch_id:batch_id+1, :, :, :]-1, 2*x[batch_id:batch_id+1, :, :, :]-1)
             saliency = gaussian_filter(saliency.cpu().detach().numpy(), sigma=2)
             saliency_maps.append(saliency[0])
-            print(f'saliency shape: {saliency[0].shape}')
         return torch.tensor(np.asarray(saliency_maps)).to(x.device)
 
     def filter_anomaly_mask(self, anomaly_masks):

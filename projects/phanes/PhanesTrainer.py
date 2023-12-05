@@ -243,7 +243,6 @@ class PTrainer(Trainer):
                 mixed_mask[mixed_mask > 1] = 1
 
                 transformed_images = (images * (1 - mixed_mask).float()) + mixed_mask
-                print(f'SHapes**: {transformed_images.shape} / {mixed_mask.shape}')
                 pred_img = self.model.netG(transformed_images, mixed_mask)
                 comp_img = (1 - mixed_mask) * images + mixed_mask * pred_img
 
