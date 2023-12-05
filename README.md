@@ -66,7 +66,11 @@ cd PHANES
 #### 3). Install requirements
 
 ```bash
-pip install -r requirements.txt
+pip install -r pip_requirements.txt
+```
+or ** conda **: 
+```bash
+conda create --name phanes_py308 --file conda_requirements.txt
 ```
 
 #### 4). Install PyTorch 
