@@ -180,6 +180,7 @@ class AssertChannelFirst(Transform):
         """
         Apply the transform to `img`.
         """
+        print(f'Assert: min {torch.min(img)}, max: {torch.max(img)}, mean: {torch.mean(img)}')
         assert len(img.shape) == 3,  f'AssertChannelFirst:: Image should have 3 dimensions, instead of {len(img.shape)}'
         if img.shape[0] == img.shape[1] and img.shape[0] != img.shape[2]:
             print(f'Permuted channels {(img.permute(2,0,1)).shape}')
