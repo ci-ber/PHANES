@@ -187,6 +187,7 @@ class AnomalyMap:
             x_res[x_res > 1] = 1
             residuals.append(torch.unsqueeze(x_res, 0))
         res_tensor = torch.cat(residuals, 0)
+        print(f'shapes compute: {res_tensor.shape}  / {saliency_maps.shape}')
         return res_tensor, saliency_maps
 
     def get_saliency(self, x_rec, x):
