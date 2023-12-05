@@ -176,7 +176,7 @@ class AnomalyMap:
     def compute_residual(self, x_rec, x):
         saliency_maps = self.get_saliency(x_rec, x)
         residuals = []
-        for batch in x_rec:
+        for batch in range(x_rec.size(0)):
             x_rescale = torch.Tensor(exposure.equalize_adapthist(x[batch].cpu().detach().numpy())).to(x_rec.device)
             x_rec_rescale = torch.Tensor(exposure.equalize_adapthist(x_rec[batch].cpu().detach().numpy())).to(x.device)
             x_res_2 = torch.abs(x_rec_rescale - x_rescale)
@@ -190,8 +190,7 @@ class AnomalyMap:
 
     def get_saliency(self, x_rec, x):
         saliency_maps = []
-        print(f'SHAPE: {x_rec.shape}')
-        for batch in x_rec.shape(0):
+        for batch in range(x_rec.size(0)):
             saliency = self.l_pips_sq(2*x_rec[batch]-1, 2*x[batch]-1)
             saliency = gaussian_filter(saliency.cpu().detach().numpy(), sigma=2)
             saliency_maps.append(saliency)
