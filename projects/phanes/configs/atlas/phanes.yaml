@@ -42,7 +42,7 @@ trainer:
   params:
     input_size: *target_size
     checkpoint_path: *checkpoint_path
-    nr_epochs: 1500
+    nr_epochs: 2 # 1500
     transformer:
       module_name: transforms.synthetic
       class_name: GenerateMasks
