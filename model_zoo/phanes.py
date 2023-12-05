@@ -179,15 +179,17 @@ class AnomalyMap:
         for batch_id in range(x_rec.size(0)):
             x_rescale = torch.Tensor(exposure.equalize_adapthist(x[batch_id].cpu().detach().numpy())).to(x_rec.device)
             x_rec_rescale = torch.Tensor(exposure.equalize_adapthist(x_rec[batch_id].cpu().detach().numpy())).to(x.device)
-            print(f'shape: {x_rescale.shape}')
             x_res_2 = torch.abs(x_rec_rescale - x_rescale)
             x_res = x_res_2
             perc95 = torch.quantile(x_res, 0.95)
             eps=1e-8
             x_res = x_res / (perc95+eps)
             x_res[x_res > 1] = 1
-            residuals.append(x_res)
-        return residuals, saliency_maps
+            residuals.append(torch.unsqueeze(x_res, 0))
+        res_tensor = torch.cat(residuals, 0)
+        print(f'shape: {res_tensor.shape}')
+
+        return res_tensor, saliency_maps
 
     def get_saliency(self, x_rec, x):
         saliency_maps = []
