@@ -4,16 +4,12 @@ from torch.optim.lr_scheduler import MultiStepLR
 
 from time import time
 import wandb
-from dl_utils.config_utils import *
 import logging
-from model_zoo.soft_intro_vae_daniel import *
+from model_zoo.phanes import *
 from model_zoo.aotgan.loss import loss as loss_module
 from optim.losses.image_losses import EmbeddingLoss
 import matplotlib.pyplot as plt
 import copy
-from scipy.ndimage.filters import gaussian_filter
-from skimage import exposure
-from skimage.measure import label, regionprops
 
 
 class PTrainer(Trainer):
