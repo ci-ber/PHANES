@@ -9,7 +9,7 @@ import argparse
 import wandb
 from datetime import datetime
 import sys
-sys.path.insert(0, '../PHANES')
+sys.path.insert(0, './')
 from dl_utils.config_utils import *
 import warnings
 
