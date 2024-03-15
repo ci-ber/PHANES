@@ -204,7 +204,7 @@ class AnomalyMap:
             masking_threshold = np.percentile(anomaly_mask, 95) if masking_threshold is None else masking_threshold
             # BINARIZE
             anomaly_mask[anomaly_mask>masking_threshold] = 1
-            anomaly_mask[anomaly_mask>1] = 0
+            anomaly_mask[anomaly_mask!=1] = 0
             filtered_mask = anomaly_mask
             filtered_masks.append(np.expand_dims(filtered_mask, 0))
         filtered_masks = gaussian_filter(np.asarray(filtered_masks), sigma=1.2)
